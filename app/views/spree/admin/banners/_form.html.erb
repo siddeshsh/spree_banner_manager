@@ -1,0 +1,59 @@
+<%= form_for([:admin,@banner], :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @banner.errors.any? %>
+    <div id="error_explanation" class="alert alert-error">
+      <h2><%= pluralize(@banner.errors.count, "error") %> prohibited this banner from being saved:</h2>
+      <ul>
+      <% @banner.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :menu_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :name, (@all_sales_menu<<"All Sales").sort_by { |sale| sale.upcase }.map { |menu| [menu.humanize, menu.downcase]  }, { }, { :class => "span3"} %> In which section you want this to appear?
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :url, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :url %> Full URL where you want a user to go.
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :image_name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :image_name %> Strictly to be same as image's name.
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :sale, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :sale_event_id, @active_sale_ids.map { |sale| [sale.eventable.name.humanize, sale.id] } << ["No Sales", nil], { :prompt => "Please select a sale" }, { :class => "span3"} %> Or leave if its not affiliated with any sale!
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :banner_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :banner_type, @types.map { |type| [type.humanize, type] }, { :prompt => "Please select a type" }, { :class => "span3"} %> Must be selected!
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :position, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :position, :class => "span1" %> Must be given! Can be 0, 1, 99 or any integer!
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :live, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :live %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit(:class => "btn btn-primary" ) %>
+  </div>
+<% end %>

@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Menu Name:</b>
+  <%= @banner.name %>
+</p>
+
+<p>
+  <b>URL:</b>
+  <%= @banner.url %>
+</p>
+
+<p>
+  <b>Image Name:</b>
+  <%= "https://slider.styletagassets.com/banners/#{@banner.image_name}" %>
+</p>
+
+<p>
+  <b>Sale:</b>
+  <%= @banner.active_sale_event.eventable.nil? ? "No Sale Affiliated" : @banner.try(:active_sale_event).try(:eventable).try(:name) %>
+</p>
+
+<p>
+  <b>Is Live?:</b>
+  <%= @banner.live %>
+</p>
+<p>
+  <b>Position:</b>
+  <%= @banner.position %>
+</p>
+<p>
+  <b>Type:</b>
+  <%= @banner.banner_type %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_banner_path(@banner) %> |
+<%= link_to 'Back', admin_banners_path %>
