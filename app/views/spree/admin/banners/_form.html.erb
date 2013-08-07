@@ -3,19 +3,24 @@
     <div id="error_explanation" class="alert alert-error">
       <h2><%= pluralize(@banner.errors.count, "error") %> prohibited this banner from being saved:</h2>
       <ul>
-      <% @banner.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @banner.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-
-  <div class="control-group">
-    <%= f.label :menu_name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.select :name, (@all_sales_menu<<"All Sales").sort_by { |sale| sale.upcase }.map { |menu| [menu.humanize, menu.downcase]  }, { }, { :class => "span3"} %> In which section you want this to appear?
+  <p>
+    <div class="control-group">
+      <div class="field four columns" style="margin-left: 0px;">
+         <label for="menu_name" style="font-size: 12px;">
+          <%= f.label :menu_name %>
+         </label>
+          <%= select_tag "banner[name]", options_for_select((@all_sales_menu).sort_by { |sale| sale.upcase }.map { |menu| [menu.humanize, menu.downcase]  }, @banner.name), {:class => 'select2 select_item_total fullwidth'} %>
+        </div>
+      </label>
     </div>
-  </div>
+  </p>
+   <div style="clear:both; float:none;"></div> 
   <div class="control-group">
     <%= f.label :url, :class => 'control-label' %>
     <div class="controls">
@@ -28,31 +33,40 @@
       <%= f.text_field :image_name %> Strictly to be same as image's name.
     </div>
   </div>
+  <p>
+  <div style="clear:both; float:none;"></div>
   <div class="control-group">
-    <%= f.label :sale, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.select :sale_event_id, @active_sale_ids.map { |sale| [sale.eventable.name.humanize, sale.id] } << ["No Sales", nil], { :prompt => "Please select a sale" }, { :class => "span3"} %> Or leave if its not affiliated with any sale!
+    
+    <div class="field alpha four columns">
+      <label for="sale" style="font-size: 12px;" >
+        <%= f.label :sale %>
+      </label>
+      <%= select_tag "banner[sale_event_id]", options_for_select(@active_sale_ids.map { |sale| [sale.eventable.name.humanize, sale.id] } << ["No Sales", nil], @banner.sale_event_id), {:class => 'select2 select_item_total fullwidth'} %>
     </div>
   </div>
+  </p>
+  <div style="clear:both; float:none;"></div>
   <div class="control-group">
     <%= f.label :banner_type, :class => 'control-label' %>
     <div class="controls">
       <%= f.select :banner_type, @types.map { |type| [type.humanize, type] }, { :prompt => "Please select a type" }, { :class => "span3"} %> Must be selected!
     </div>
   </div>
+  <div style="clear:both; float:none;"></div>
   <div class="control-group">
     <%= f.label :position, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :position, :class => "span1" %> Must be given! Can be 0, 1, 99 or any integer!
     </div>
   </div>
+  <div style="clear:both; float:none;"></div>
   <div class="control-group">
     <%= f.label :live, :class => 'control-label' %>
     <div class="controls">
       <%= f.check_box :live %>
     </div>
   </div>
-
+  <div style="clear:both; float:none;"></div>
   <div class="form-actions">
     <%= f.submit(:class => "btn btn-primary" ) %>
   </div>

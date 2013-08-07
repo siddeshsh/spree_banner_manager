@@ -54,7 +54,7 @@ module Spree
 
         respond_to do |format|
           if @banner.save
-            format.html { redirect_to(@banner, :notice => 'Banner was successfully created.') }
+            format.html { redirect_to(admin_banners_path, :notice => 'Banner was successfully created.') }
             format.xml  { render :xml => @banner, :status => :created, :location => @banner }
           else
             format.html { render :action => "new" }
@@ -72,7 +72,7 @@ module Spree
 
         respond_to do |format|
           if @banner.update_attributes(params[:banner])
-            format.html { redirect_to(@banner, :notice => 'Banner was successfully updated.') }
+            format.html { redirect_to(admin_banners_path, :notice => 'Banner was successfully updated.') }
             format.xml  { head :ok }
           else
             format.html { render :action => "edit" }

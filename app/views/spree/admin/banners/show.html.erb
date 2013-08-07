@@ -17,7 +17,7 @@
 
 <p>
   <b>Sale:</b>
-  <%= @banner.active_sale_event.eventable.nil? ? "No Sale Affiliated" : @banner.try(:active_sale_event).try(:eventable).try(:name) %>
+  <%= @banner.try(:active_sale_event).try(:eventable).try(:nil?) ? "No Sale Affiliated" : @banner.try(:active_sale_event).try(:eventable).try(:name) %>
 </p>
 
 <p>
