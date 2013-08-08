@@ -95,7 +95,7 @@ module Spree
 
       def load_menus
         @active_sale_ids = Spree::ActiveSaleEvent.live_active.sort_by { |as| as.eventable.name.upcase }
-        @all_sales_menu = Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << "marketing"
+        @all_sales_menu = (Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << ["marketing", "lookbook"]).flatten
       end
     end
   end
