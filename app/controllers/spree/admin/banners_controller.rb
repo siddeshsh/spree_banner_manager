@@ -93,6 +93,11 @@ module Spree
         end
       end
 
+      def pin
+        @banner = Banner.find(params[:id])
+        #render :json => @banner 
+      end  
+
       def load_menus
         @active_sale_ids = Spree::ActiveSaleEvent.live_active.sort_by { |as| as.eventable.name.upcase }
         @all_sales_menu = (Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << ["marketing", "lookbook", "newin", "designer"]).flatten

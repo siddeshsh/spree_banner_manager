@@ -14,6 +14,7 @@
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -26,9 +27,11 @@
         <td><%= banner.live %></td>
         <td><%= banner.position %></td>
         <td><%= banner.banner_type %></td>
+        <td><%= link_to 'Pin', pin_admin_banner_path(banner) %></td>
         <td><%= link_to 'Show', admin_banner_path(banner) %></td>
         <td><%= link_to 'Edit', edit_admin_banner_path(banner) %></td>
         <td><%= link_to 'Destroy', admin_banner_path(banner), :confirm => 'Are you sure?', :method => :delete %></td>
+
       </tr>
     <% end %>
   </tbody>

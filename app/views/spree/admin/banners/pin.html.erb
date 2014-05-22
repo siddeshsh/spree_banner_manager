@@ -1,0 +1,41 @@
+<%#=  @banner%>
+<!--style type="text/css">
+.container {
+	width: 0px !important;
+}
+</style-->
+<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "shelfmap" %>
+<map name="#shelfmap">
+            <area shape="rect" coords="2.5,-165,240.5,392" href="sun.htm" alt="Sun">
+            <area shape="rect" coords="252.5,3,493.5,423" href="vv.htm" alt="Sun">
+           
+            
+ </map>
+X1<input type="text" id="x1" />
+Y1<input type="text" id="y1" />
+X2<input type="text" id="x2" />
+Y2<input type="text" id="y2" /><br />
+link<input type="text" id="href" />
+Alt<input type="text" id="alt" />
+Shape<input type="text" id="alt" />
+<script type="text/javascript">
+var click = 0;
+$(document).ready(function() {
+  $('img').click(function(e) {
+    var offset = $(this).offset();
+    console.log(offset);
+    if(click == 0){
+    	$('#x1').val(e.clientX - offset.left);
+    	$('#y1').val(e.clientY - offset.top);
+    	 click = 1;
+    }
+    else{
+    	$('#x2').val(e.clientX - offset.left);
+    	$('#y2').val(e.clientY);
+    	 click = 0;
+    }
+    
+   
+  });
+});
+</script>
