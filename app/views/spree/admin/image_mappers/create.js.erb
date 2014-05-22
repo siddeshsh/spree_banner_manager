@@ -1,1 +1,2 @@
 $('#image_pins').html('<%=  escape_javascript(render :partial => "spree/admin/banners/list_pins", :locals => { :pins =>@pins }) %>');
+$('#pins_in_image').html('<%=  escape_javascript(render :partial => "spree/admin/banners/pins_area", :locals => { :pins =>@pins }) %>');
