@@ -63,7 +63,7 @@ $(document).ready(function() {
     }
     else{
     	$('#x2').val(e.clientX - offset.left);
-    	$('#y2').val(e.clientY);
+    	$('#y2').val(e.clientY - offset.top);
     	 click = 0;
     }
    });
