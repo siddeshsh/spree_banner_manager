@@ -1,5 +1,5 @@
 <div id="pins_in_image">
 <% @pins && @pins.each do |p|%>
-            <area shape="<%=p.shape%>" coords="<%=p.x1%>,<%=p.y1%>,<%=p.x2%>,<%=p.y2%>" href="javascript:void(0)" alt="<%=p.alt%>">
+            <area id="<%=p.id%>" shape="<%=p.shape%>" coords="<%=p.x1%>,<%=p.y1%>,<%=p.x2%>,<%=p.y2%>" href="javascript:void(0)" alt="<%=p.alt%>">
 <%end%>
 </div>

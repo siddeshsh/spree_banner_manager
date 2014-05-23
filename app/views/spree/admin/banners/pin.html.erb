@@ -1,4 +1,3 @@
-<%#=  @banner%>
 <style type="text/css">
 .container {
         margin: 0 !important;
@@ -11,7 +10,7 @@ top:30px;
 right:5px;
 width: 180px;
 }
-#close_map_form{
+.close_map_form{
        color: red;
        margin: 5px;
        float: right;
@@ -20,8 +19,8 @@ width: 180px;
        color: red;
 }
 </style>
-<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "shelfmap" %>
-<map name="#shelfmap">
+<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "#shelfmap" %>
+<map name="shelfmap">
 <%= render :partial => 'spree/admin/banners/pins_area' %>
 </map>
 <%= form_tag "/admin/image_mappers", :method => :post,:remote=>true do %>
@@ -40,7 +39,7 @@ Shape<%=text_field_tag :shape %>
 
 
 <div id="edit_map" style="display:none">
-       <span id="close_map_form"><a href="javascript:void(0)">X</a></span>
+<span class="close_map_form"><a href="javascript:void(0)">X</a></span>
 X1<input type="text" id="x1" />
 Y1<input type="text" id="y1" />
 X2<input type="text" id="x2" />
@@ -67,17 +66,30 @@ $(document).ready(function() {
     	$('#y2').val(e.clientY);
     	 click = 0;
     }
+   });
+$('area').click(function(e) {
+          $.ajax({
+    type: "GET",
+    url: "/admin/image_mappers/"+$(this).attr("id")+"/edit",
+    success: function(data) {
+         $("#edit_map").css('top',e.clientY );
+         $("#edit_map").css('left',e.clientX);
+         $("#edit_map").show();
+         $("#edit_map").draggable();
     
-   
+  },
+    error: function(data) {
+          }
   });
+         
+ });
+
+ 
+
+
 });
 
- $('area').click(function(e) {
-         $("#edit_map").css('top',e.clientX );
-         $("#edit_map").css('left',e.clientY);
-         $("#edit_map").show();
- });
- $('#close_map_form').click(function(e){
-         $("#edit_map").hide();
+ $(document).on('click','.close_map_form',function(){
+  $("#edit_map").hide();
  });
 </script>
