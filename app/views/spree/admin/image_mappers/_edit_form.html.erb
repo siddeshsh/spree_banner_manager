@@ -1,0 +1,16 @@
+<span class="close_map_form"><a href="javascript:void(0)">X</a></span>
+<%=form_tag "/admin/image_mappers/#{image_mapper.id}", :method => :put,:remote=>true do %>
+  x1<%= text_field_tag :x1 , image_mapper.x1 %>
+  y1<%= text_field_tag :y1, image_mapper.y1 %>
+  x2<%= text_field_tag :x2, image_mapper.x2  %>
+  y2<%= text_field_tag :y2, image_mapper.y2 %>
+  link<%= text_field_tag :link, image_mapper.link %>
+  alt<%= text_field_tag :alt, image_mapper.alt %>
+  shape<%= text_field_tag :shape, image_mapper.shape %>
+  
+  <%= submit_tag 'Update' %>
+<% end %>
+<br />
+<%=form_tag "/admin/image_mappers/#{image_mapper.id}", :method => :DELETE,:remote=>true do %>
+	 <%= submit_tag 'DELETE' ,:class => 'danger'%>
+<% end %>

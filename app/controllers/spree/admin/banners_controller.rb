@@ -95,6 +95,7 @@ module Spree
 
       def pin
         @banner = Banner.find(params[:id])
+        @pins=@banner.image_mappers
         #render :json => @banner 
       end  
 
