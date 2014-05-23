@@ -18,8 +18,9 @@ width: 180px;
 #close_map_form a{
        color: red;
 }
+
 </style>
-<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "#shelfmap" %>
+<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "#shelfmap",:id => "bn_image" %>
 <map name="shelfmap">
 <%= render :partial => 'spree/admin/banners/pins_area' %>
 </map>
@@ -54,16 +55,16 @@ Shape<input type="text" id="alt" />
 var click = 0;
 $(document).ready(function() {
   $('img').click(function(e) {
-    var offset = $(this).offset();
-    console.log(offset);
+    var offset = $("#bn_image").offset();
+    
     if(click == 0){
-    	$('#x1').val(e.clientX - offset.left);
-    	$('#y1').val(e.clientY - offset.top);
+    	$('#x1').val(e.pageX - offset.left);
+    	$('#y1').val(e.pageY - offset.top);
     	 click = 1;
     }
     else{
-    	$('#x2').val(e.clientX - offset.left);
-    	$('#y2').val(e.clientY - offset.top);
+    	$('#x2').val(e.pageX - offset.left);
+    	$('#y2').val(e.pageY - offset.top);
     	 click = 0;
     }
    });
