@@ -1,0 +1,96 @@
+<style type="text/css">
+.container {
+        margin: 0 !important;
+}
+#edit_map
+{
+background-color: black;
+position:fixed;
+top:30px;
+right:5px;
+width: 180px;
+}
+.close_map_form{
+       color: red;
+       margin: 5px;
+       float: right;
+}
+#close_map_form a{
+       color: red;
+}
+
+</style>
+<%=image_tag @banner.image_url, :alt=> @banner.name, :usemap => "#shelfmap",:id => "bn_image" %>
+<map name="shelfmap">
+<%= render :partial => 'spree/admin/banners/pins_area' %>
+</map>
+<%= form_tag "/admin/image_mappers", :method => :post,:remote=>true do %>
+X1 <%=text_field_tag :x1 %>
+Y1<%=text_field_tag :y1 %>
+X2<%=text_field_tag :x2 %>
+Y2<%=text_field_tag :y2 %>
+link<%=text_field_tag :link %>
+Alt<%=text_field_tag :alt %>
+Shape<%=text_field_tag :shape %>
+<%=hidden_field_tag :id,params[:id]%>
+<section  class="span11">
+<%= submit_tag 'Create', :id => 'image_mapper_create', :class=> 'btn pull-right '%>
+</section>
+<%end%>
+
+
+<div id="edit_map" style="display:none">
+<span class="close_map_form"><a href="javascript:void(0)">X</a></span>
+X1<input type="text" id="x1" />
+Y1<input type="text" id="y1" />
+X2<input type="text" id="x2" />
+Y2<input type="text" id="y2" /><br />
+link<input type="text" id="href" />
+Alt<input type="text" id="alt" />
+Shape<input type="text" id="alt" />
+</div>
+
+<%= render :partial => 'spree/admin/banners/list_pins' %>
+<script type="text/javascript">
+var click = 0;
+$(document).ready(function() {
+  $('img').click(function(e) {
+    var offset = $("#bn_image").offset();
+    
+    if(click == 0){
+    	$('#x1').val(e.pageX - offset.left);
+    	$('#y1').val(e.pageY - offset.top);
+    	 click = 1;
+    }
+    else{
+    	$('#x2').val(e.pageX - offset.left);
+    	$('#y2').val(e.pageY - offset.top);
+    	 click = 0;
+    }
+   });
+$('area').click(function(e) {
+          $.ajax({
+    type: "GET",
+    url: "/admin/image_mappers/"+$(this).attr("id")+"/edit",
+    success: function(data) {
+         $("#edit_map").css('top',e.clientY );
+         $("#edit_map").css('left',e.clientX);
+         $("#edit_map").show();
+         $("#edit_map").draggable();
+    
+  },
+    error: function(data) {
+          }
+  });
+         
+ });
+
+ 
+
+
+});
+
+ $(document).on('click','.close_map_form',function(){
+  $("#edit_map").hide();
+ });
+</script>
