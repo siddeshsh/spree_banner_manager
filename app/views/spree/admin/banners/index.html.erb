@@ -11,6 +11,7 @@
       <th>Is Live?</th>
       <th>Position</th>
       <th>Type</th>
+      <th>target _blank</th>
       <th></th>
       <th></th>
       <th></th>
@@ -27,6 +28,7 @@
         <td><%= banner.live %></td>
         <td><%= banner.position %></td>
         <td><%= banner.banner_type %></td>
+        <td><%= banner.target %></td>
         <td><%= link_to 'Pin', pin_admin_banner_path(banner) %></td>
         <td><%= link_to 'Show', admin_banner_path(banner) %></td>
         <td><%= link_to 'Edit', edit_admin_banner_path(banner) %></td>
