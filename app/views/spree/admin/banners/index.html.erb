@@ -1,6 +1,34 @@
-<h1>Listing Banners</h1>
 
-<%= link_to 'Create New Banner', new_admin_banner_path %>
+
+<% content_for :page_actions do %>
+    <li>
+      <%= button_link_to t(:new_banner), spree.new_admin_banner_path, :icon => 'icon-plus' %>
+    </li>
+<% end %>
+
+<% unless @banners.any? %>
+    <div class="no-objects-found">
+      <%= t(:no_banners_found) %>.
+      <%= link_to t(:add_one), spree.new_admin_promotion_path %>!
+    </div>
+<% else %>
+
+
+    <%= form_tag "/admin/banners/search" , :remote => true, :id => 'search_banner', :dataType => 'html', :method => :get  do  %>
+        <%= select_tag "filter", options_for_select(['All', 'Active', 'In-Active'], :selected => "Active"),  :class => 'type-select select2', :style => 'width: 100px;' %>
+        <%= text_field_tag "search" , params[:search_taxons] , :placeholder =>  'search by banner', :style => 'width: 400px;' %>
+        <%= button_tag 'search' , :id => 'ban_search_form' %>
+    <% end %>
+
+
+    <div style="padding:10px"></div>
+    <div id="show_banners">
+
+    </div>
+
+
+<div id="all_ban">
+  <%= paginate(@banners) %>
 <table class="table table-striped table-bordered table-condensed">
   <thead>
     <tr>
@@ -38,7 +66,17 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @banners %>
+</div>
+<% end %>
 
-<br />
+<script type="text/javascript">
 
-<%#= will_paginate @banners %>
+    $(document).ready(function(){
+        $('form#search_banner').on('ajax:success',function(event, data, status, xhr){
+            $('#all_ban').hide();
+            $('#show_banners').html(data);
+        });
+    });
+
+</script>

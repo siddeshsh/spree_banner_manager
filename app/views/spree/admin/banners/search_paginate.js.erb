@@ -1,0 +1,5 @@
+
+
+$('#show_banners').html('<%= escape_javascript render(:partial =>"spree/admin/banners/search_banners",:locals => { :banner => @banners}) %>');
+
+$('#paginate').html('<%= escape_javascript(paginate(@banners, :remote => true).to_s) %>');

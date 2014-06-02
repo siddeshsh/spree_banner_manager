@@ -8,7 +8,8 @@ module Spree
       # GET /banners
       # GET /banners.xml
       def index
-        @banners = Banner.order(:live).reverse#.reverse.sort_by { |banner| banner.position }.paginate(:page => params[:page], :per_page => 30)
+        @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+        #@banners = Banner.order(:live).reverse#.reverse.sort_by { |banner| banner.position }.paginate(:page => params[:page], :per_page => 30)
 
         respond_to do |format|
           format.html # index.html.erb
@@ -103,6 +104,39 @@ module Spree
         @active_sale_ids = Spree::ActiveSaleEvent.live_active.sort_by { |as| as.eventable.name.upcase }
         @all_sales_menu = (Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << ["marketing", "lookbook", "newin", "designer"]).flatten
       end
+
+      def search
+        if params[:filter].eql? 'All'
+          @banners =  Spree::Banner.where('name like ?',  "%#{params[:search]}%" ).page(params[:page]).per(30)
+        end
+
+        if params[:filter].eql? 'Active'
+          @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+        end
+
+        if params[:filter].eql? 'In-Active'
+          @banners = Spree::Banner.where(:live => false ).page(params[:page]).per(30)
+        end
+
+        render :partial => 'spree/admin/banners/search_banners'
+      end
+
+      def search_paginate
+
+        if params[:filter].eql? 'All'
+          @banners =  Spree::Banner.where('name like ?',  "%#{params[:search]}%" ).page(params[:page]).per(30)
+        end
+
+        if params[:filter].eql? 'Active'
+          @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+        end
+
+        if params[:filter].eql? 'In-Active'
+          @banners = Spree::Banner.where(:live => false ).page(params[:page]).per(30)
+        end
+
+      end
+
     end
   end
 end
