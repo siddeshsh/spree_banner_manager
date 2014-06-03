@@ -41,7 +41,7 @@
       <label for="sale" style="font-size: 12px;" >
         <%= f.label :sale %>
       </label>
-      <%= select_tag "banner[sale_event_id]", options_for_select(@active_sale_ids.map { |sale| [sale.eventable.name.humanize, sale.id] } << ["No Sales", nil], @banner.sale_event_id), {:class => 'select2 select_item_total fullwidth'} %>
+      <%= select_tag "banner[sale_event_id]", options_for_select(@active_sale_ids.map { |sale| [sale.eventable.name.humanize, sale.id] } << ["No Sales", nil], :selected => (@banner.sale_event_id.nil? ?  ["No Sales", nil] : @banner.sale_event_id) ), {:class => 'select2 select_item_total fullwidth'} %>
     </div>
   </div>
   </p>
