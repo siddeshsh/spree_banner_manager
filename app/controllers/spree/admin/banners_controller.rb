@@ -8,7 +8,7 @@ module Spree
       # GET /banners
       # GET /banners.xml
       def index
-        @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+        @banners = Spree::Banner.order('updated_at desc').where(:live => true ).page(params[:page]).per(30)
         #@banners = Banner.order(:live).reverse#.reverse.sort_by { |banner| banner.position }.paginate(:page => params[:page], :per_page => 30)
 
         respond_to do |format|
