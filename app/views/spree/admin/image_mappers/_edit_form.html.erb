@@ -7,7 +7,9 @@
   link<%= text_field_tag :link, image_mapper.link %>
   alt<%= text_field_tag :alt, image_mapper.alt %>
   shape<%= text_field_tag :shape, image_mapper.shape %>
-  
+  Target Blank
+      <%= check_box_tag :target, 'yes', image_mapper.target %>
+
   <%= submit_tag 'Update' %>
 <% end %>
 <br />
