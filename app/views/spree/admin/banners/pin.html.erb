@@ -32,6 +32,9 @@ Y2<%=text_field_tag :y2 %>
 link<%=text_field_tag :link %>
 Alt<%=text_field_tag :alt %>
 Shape<%=text_field_tag :shape %>
+_target_blank
+<%= check_box_tag :target %>
+
 <%=hidden_field_tag :id,params[:id]%>
 <section  class="span11">
 <%= submit_tag 'Create', :id => 'image_mapper_create', :class=> 'btn pull-right '%>

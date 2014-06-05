@@ -1,6 +1,6 @@
 class Spree::Admin::ImageMappersController < ApplicationController
     def create
-        @image_mapper=Spree::ImageMapper.new(x1: params[:x1],y1: params[:y1],x2: params[:x2],y2: params[:y2],link: params[:link],alt: params[:alt],shape: params[:shape])
+        @image_mapper=Spree::ImageMapper.new(x1: params[:x1],y1: params[:y1],x2: params[:x2],y2: params[:y2],link: params[:link],alt: params[:alt],shape: params[:shape], target: params[:target].to_i )
         @banner = Spree::Banner.find(params[:id])
         @image_mapper.banner_id=@banner.id
         @image_mapper.save
@@ -19,7 +19,7 @@ class Spree::Admin::ImageMappersController < ApplicationController
 
     def update
         @image_mapper=Spree::ImageMapper.find(params[:id])
-        if @image_mapper.update_attributes(x1: params[:x1],y1: params[:y1],x2: params[:x2],y2: params[:y2],link: params[:link],alt: params[:alt],shape: params[:shape])   
+        if @image_mapper.update_attributes(x1: params[:x1],y1: params[:y1],x2: params[:x2],y2: params[:y2],link: params[:link],alt: params[:alt],shape: params[:shape], target: params[:target].to_i)
             respond_to do |format|
             format.js
             end
