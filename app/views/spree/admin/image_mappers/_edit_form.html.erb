@@ -8,7 +8,11 @@
   alt<%= text_field_tag :alt, image_mapper.alt %>
   shape<%= text_field_tag :shape, image_mapper.shape %>
   Target Blank
-      <%= check_box_tag :target, 'yes', image_mapper.target %>
+      <% if image_mapper.target %>
+       <%= check_box_tag :target, 0, :checked => true %>
+      <% else %>
+        <%= check_box_tag :target, 1 %>
+      <% end %>
 
   <%= submit_tag 'Update' %>
 <% end %>
