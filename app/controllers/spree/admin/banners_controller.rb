@@ -107,15 +107,24 @@ module Spree
 
       def search
         if params[:filter].eql? 'All'
-          @banners =  Spree::Banner.where('name like ?',  "%#{params[:search]}%" ).page(params[:page]).per(30)
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'Active'
-          @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'In-Active'
-          @banners = Spree::Banner.where(:live => false ).page(params[:page]).per(30)
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
         end
 
         render :partial => 'spree/admin/banners/search_banners'
@@ -124,16 +133,25 @@ module Spree
       def search_paginate
 
         if params[:filter].eql? 'All'
-          @banners =  Spree::Banner.where('name like ?',  "%#{params[:search]}%" ).page(params[:page]).per(30)
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'Active'
-          @banners = Spree::Banner.where(:live => true ).page(params[:page]).per(30)
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'In-Active'
-          @banners = Spree::Banner.where(:live => false ).page(params[:page]).per(30)
-        end
+          name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          ids =  name_ids + url_ids
+          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+       end
 
       end
 
