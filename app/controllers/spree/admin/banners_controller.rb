@@ -109,22 +109,25 @@ module Spree
         if params[:filter].eql? 'All'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'In-Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
 
         render :partial => 'spree/admin/banners/search_banners'
@@ -135,22 +138,25 @@ module Spree
         if params[:filter].eql? 'All'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
 
         if params[:filter].eql? 'In-Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id)  rescue []
+          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
-          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?)', ids).page(params[:page]).per(30)
+          @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
        end
 
       end
