@@ -3,7 +3,7 @@ module Spree
     class BannersController < ResourceController
 
       #before_filter :is_cs
-      before_filter :load_menus, :only => [:new, :edit, :create, :update]
+      before_filter :load_menus#, :only => [:new, :edit, :create, :update]
 
       # GET /banners
       # GET /banners.xml
@@ -102,14 +102,19 @@ module Spree
 
       def load_menus
         @active_sale_ids = Spree::ActiveSaleEvent.live_active.sort_by { |as| as.eventable.name.upcase }
-        @all_sales_menu = (Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << ["marketing", "lookbook", "newin", "designer"]).flatten
+        #@all_sales_menu = (Spree::ActiveSaleEvent.live_active.roots.map{|ss| ss.name} << ["marketing", "lookbook", "newin", "designer"]).flatten
+        cats = [["Home", "marketing"]]
+        Spree::ActiveSaleEvent.live_active.roots.each{|cat1|  cats << [cat1.name.humanize, cat1.permalink] unless cat1.permalink == "t/designers"}
+        Spree::ActiveSaleEvent.live_active.roots.each{|cat1| cat1.descendants.live.each{|cat2| cats << [cat2.permalink.gsub("t/designers/", ""), cat2.permalink]}}
+        Spree::ActiveSaleEvent.live_active.roots.each{|cat1| cat1.descendants.live.each{|cat2| cat2.descendants.live.each{|cat3| cats << [cat3.permalink.gsub("t/designers/", ""), cat3.permalink]}}}
+        @all_sales_menu = cats
       end
 
       def search
         if params[:filter].eql? 'All'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
-          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ? or name like ?", "%#{params[:search]}%", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
           @banners =  Spree::Banner.where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
@@ -117,7 +122,7 @@ module Spree
         if params[:filter].eql? 'Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id)  rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
-          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ? or name like ?", "%#{params[:search]}%", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
           @banners =  Spree::Banner.where(:live => true ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end
@@ -125,7 +130,7 @@ module Spree
         if params[:filter].eql? 'In-Active'
           name_ids = Spree::ActiveSaleEvent.where("name like ?", "%#{params[:search]}%").collect(&:id) rescue []
           url_ids = Spree::ActiveSaleEvent.where("permalink like ?", "%#{params[:search]}%").collect(&:id) rescue []
-          url_link = Spree::Banner.where("url like ?", "%#{params[:search]}%").collect(&:id) rescue []
+          url_link = Spree::Banner.where("url like ? or name like ?", "%#{params[:search]}%", "%#{params[:search]}%").collect(&:id) rescue []
           ids =  name_ids + url_ids
           @banners =  Spree::Banner.where(:live => false ).where('sale_event_id IN(?) OR id IN(?)', ids, url_link).page(params[:page]).per(30)
         end

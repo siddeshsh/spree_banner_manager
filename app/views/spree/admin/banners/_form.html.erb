@@ -11,11 +11,11 @@
   <% end %>
   <p>
     <div class="control-group">
-      <div class="field four columns" style="margin-left: 0px;">
+      <div class="field eight columns" style="margin-left: 0px;">
          <label for="menu_name" style="font-size: 12px;">
           <%= f.label :menu_name %>
          </label>
-          <%= select_tag "banner[name]", options_for_select((@all_sales_menu).sort_by { |sale| sale.upcase }.map { |menu| [menu.humanize, menu.downcase]  }, @banner.name), {:class => 'select2 select_item_total fullwidth'} %>
+          <%= select_tag "banner[name]", options_for_select(@all_sales_menu, @banner.name), {:class => 'select2 select_item_total fullwidth'} %>
         </div>
       </label>
     </div>

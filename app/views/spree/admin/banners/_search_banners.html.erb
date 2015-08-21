@@ -20,7 +20,10 @@
   <tbody>
   <% @banners.each do |banner| %>
       <tr>
-        <td><%= banner.name %></td>
+        <td>
+          <% name = @all_sales_menu.select{ |name, permalink| banner.name == permalink}  %>
+          <%= name.first.try(:first) %>
+        </td>
         <td><%= banner.try(:url) %></td>
         <td><%= image_tag("http://slider.styletagassets.com/banners/#{banner.try(:image_name)}", :size => "125x30") %></td>
         <td><%= banner.try(:active_sale_event).try(:eventable).try(:name) %></td>
